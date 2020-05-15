@@ -13,7 +13,7 @@ class Rooms:
         return f'{self.room} {self.type_} {self.degree_comfortable} рассчитан на {self.max_people} чел.'
 
 
-class Guest:
+class Guest(Rooms):
     """The class describe The Guest"""
 
     def __init__(self, data_guest: str):
@@ -52,13 +52,17 @@ class Guest:
     def choice_of_room(self, days, list_rooms_inf):
         """The method choice of room for guest."""
         # Выбор комнаты для гостя
+
+        comfortable_1 = Rooms.comfortable
+        type_room_1 = Rooms.type_room
+
         room_for_guest = ''
         if int(self.number_of_guests) == 1:
             rooms_like = list_rooms_inf[0]
             if len(rooms_like) != 0:
                 for room in rooms_like:
-                    comfort = comfortable[room[0].split()[-1]]         # как-то нужно словарь перетащить сюда
-                    price = type_room[self.number_of_guests]
+                    comfort = comfortable_1[room[0].split()[-1]]         # как-то нужно словарь перетащить сюда
+                    price = type_room_1[self.number_of_guests]
                     result = comfort * price * len(days)
                     if result > self.sum_person:
                         continue
@@ -72,8 +76,8 @@ class Guest:
             rooms_like = list_rooms_inf[1]
             if len(rooms_like) != 0:
                 for room in rooms_like:
-                    comfort = comfortable[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
-                    price = type_room[self.number_of_guests]
+                    comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
+                    price = type_room_1[self.number_of_guests]
                     result = comfort * price * len(days)
                     if result > self.sum_person:
                         continue
@@ -87,8 +91,8 @@ class Guest:
             rooms_like = list_rooms_inf[2]
             if len(rooms_like) != 0:
                 for room in rooms_like:
-                    comfort = comfortable[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
-                    price = type_room[self.number_of_guests]
+                    comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
+                    price = type_room_1[self.number_of_guests]
                     result = comfort * price * len(days)
                     if result > self.sum_person:
                         continue
