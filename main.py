@@ -22,15 +22,9 @@ with open('booking.txt', encoding='utf8') as b:
     guests = []
     for guest in people:
         guest = Guest(guest)
+        #days = guest.check_days()     # вызываю настину функцию, для кол-ва дней
+        #print(guest.choice_of_room(days))    # выбор комнаты
         guests.append(guest)
-
-    # Подбираем комнату для человека:
-    for human in people:
-        # print(human)
-        # date = str( date-заезда date-выезда )
-        # date = (human.split()[0]) + ' ' + (human.split()[5])
-
-
 
 with open('fund.txt', encoding='utf8') as f:
     inf = f.read().splitlines()
@@ -56,9 +50,9 @@ with open('fund.txt', encoding='utf8') as f:
             num_rum = int(room_[:2])
             list_rooms_inf[2].append((str(num_rum) + ',' + _rm[_rm.find('люкс'):]).split(','))
 
-    #print(list_rooms_inf)
+    print(list_rooms_inf)
 
-#for
+
 # Что и как в списке:
 # ['1',['номер комнаты','мест категория'],
 #  '2',['номер комнаты','мест категория'],
