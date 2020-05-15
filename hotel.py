@@ -16,10 +16,6 @@ class Rooms:
 class Guest:
     """The class describe The Guest"""
 
-    #@staticmethod
-    #def check(dates, days):
-
-
     def __init__(self, data_guest: str):
         """Initialization method"""
         self.date_of_bron, self.first_name, self.middle_name, self.last_name, self.number_of_guests, \
@@ -30,3 +26,27 @@ class Guest:
         """String output method"""
         return f'{self.date_of_bron} {self.first_name} {self.middle_name} {self.last_name} {self.number_of_guests} {self.date_of_arrival} {self.number_of_days} {self.sum_person}'
 
+    def check_days(self):
+        """The method counts on which days the guest wants to book a room"""
+        # преобразует дату в число, какой по счету день в году
+        data = self.date_of_arrival
+        months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        months_vis = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        total = 0
+        day = int(data[:data.find('.')])
+        month = int(data[data.find('.') + 1:data.rfind('.')])
+        year = int(data[data.rfind('.') + 1:])
+        if year % 4 != 0 or (year % 100 == 0 and year % 400 != 0):
+            for i in range(0, month - 1):
+                total += months[i]
+            total += day
+        else:
+            for i in range(0, month - 1):
+                total += months_vis[i]
+            total += day
+        # подсчитывает на какие дни гость заезжает (в формате номер дня по счету в году)
+        days = [total]
+        for i in range (int(self.number_of_days) - 1):
+            total += 1
+            days.append(total)
+        return days
