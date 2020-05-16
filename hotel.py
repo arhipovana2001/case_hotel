@@ -55,14 +55,18 @@ class Guest(Rooms):
 
         comfortable_1 = Rooms.comfortable
         type_room_1 = Rooms.type_room
+        self.number_of_guests = int(self.number_of_guests)
 
         room_for_guest = ''
-        if int(self.number_of_guests) == 1:
+        x = 0
+        if self.number_of_guests == 1:
             rooms_like = list_rooms_inf[0]
             if len(rooms_like) != 0:
                 for room in rooms_like:
                     comfort = comfortable_1[room[0].split()[-1]]         # как-то нужно словарь перетащить сюда
                     price = type_room_1[self.number_of_guests]
+                    if x != 0:
+                        price = price * 0.3
                     result = comfort * price * len(days)
                     if result > self.sum_person:
                         continue
@@ -71,13 +75,18 @@ class Guest(Rooms):
                         break
                 else:
                     'не нашли комнату здесь'
+                    x += 1
+                    self.number_of_guests += 1
 
-        elif int(self.number_of_guests) == 2:
+
+        elif self.number_of_guests == 2:
             rooms_like = list_rooms_inf[1]
             if len(rooms_like) != 0:
                 for room in rooms_like:
                     comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
                     price = type_room_1[self.number_of_guests]
+                    if x != 0:
+                        price = price * 0.3
                     result = comfort * price * len(days)
                     if result > self.sum_person:
                         continue
@@ -86,6 +95,9 @@ class Guest(Rooms):
                         break
                 else:
                     'не нашли комнату здесь'
+                    x += 1
+                    self.number_of_guests += 1
+
 
         else:
             rooms_like = list_rooms_inf[2]
@@ -93,6 +105,8 @@ class Guest(Rooms):
                 for room in rooms_like:
                     comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
                     price = type_room_1[self.number_of_guests]
+                    if x != 0:
+                        price = price * 0.3
                     result = comfort * price * len(days)
                     if result > self.sum_person:
                         continue
@@ -101,12 +115,13 @@ class Guest(Rooms):
                         break
                 else:
                     'не нашли комнату здесь'
+                    x += 1
+                    self.number_of_guests += 1
 
-        return room_for_guest      # возвращаем спискок с номером комнаты ,вмещаемостью, степенью комфорта
-                                   # также можно повторно вызывать этот метод, если комната не нашлась
-                                   # типо указывать поочередно сначало вместимость, которую гость назвал
-                                   # а если ,к примеру, 1-местный не нашелся ,запустить поиск ,сказав ,что
-                                   # вместимость для гостя уже не 1, а 2    .Нужно со словарями как-то доделать!!
+        if x == 0:
+            return room_for_guest
+        else:
+            #ЗАПУСТИТЬ ЕЩЕ РАЗ
 
 
 
