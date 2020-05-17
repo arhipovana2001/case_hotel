@@ -115,11 +115,12 @@ class Guest(Rooms):
                         break
                 else:
                     'не нашли комнату здесь'
-                    x += 1
-                    self.number_of_guests += 1
+                    x = -1
 
         if x == 0:
             return room_for_guest
+        elif x == -1:
+            return 'не смогли найти комнату'
         else:
             #ЗАПУСТИТЬ ЕЩЕ РАЗ
 
