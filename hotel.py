@@ -60,7 +60,7 @@ class Guest(Rooms):
         room_for_guest = ''
         x = 0
         x1 = 0
-        while x == -1 or x1 != 3:
+        while x == -1 and x1 != -1:
             if self.number_of_guests == 1:
                 x = 0
                 rooms_like = list_rooms_inf[0]
@@ -78,7 +78,7 @@ class Guest(Rooms):
                             break
                     else:
                         'не нашли комнату здесь'
-                        x += 1
+                        x -= 1
                         self.number_of_guests += 1
 
 
@@ -99,7 +99,7 @@ class Guest(Rooms):
                             break
                     else:
                         'не нашли комнату здесь'
-                        x += 1
+                        x -= 1
                         self.number_of_guests += 1
 
 
@@ -120,13 +120,13 @@ class Guest(Rooms):
                             break
                     else:
                         'не нашли комнату здесь'
+                        x1 -= -1
                         x = -1
 
             if x == 0:
                 x -= 1
                 return room_for_guest
             elif x == -1:
-                x1 += 1
                 return 'не смогли найти комнату'
 
 
