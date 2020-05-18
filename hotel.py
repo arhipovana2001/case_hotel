@@ -59,71 +59,75 @@ class Guest(Rooms):
 
         room_for_guest = ''
         x = 0
-        if self.number_of_guests == 1:
-            rooms_like = list_rooms_inf[0]
-            if len(rooms_like) != 0:
-                for room in rooms_like:
-                    comfort = comfortable_1[room[0].split()[-1]]         # как-то нужно словарь перетащить сюда
-                    price = type_room_1[self.number_of_guests]
-                    if x != 0:
-                        price = price * 0.3
-                    result = comfort * price * len(days)
-                    if result > self.sum_person:
-                        continue
-                    elif result <= self.sum_person:
-                        room_for_guest = room
-                        break
-                else:
-                    'не нашли комнату здесь'
-                    x += 1
-                    self.number_of_guests += 1
+        x1 = 0
+        while x == -1 or x1 != 3:
+            if self.number_of_guests == 1:
+                x = 0
+                rooms_like = list_rooms_inf[0]
+                if len(rooms_like) != 0:
+                    for room in rooms_like:
+                        comfort = comfortable_1[room[0].split()[-1]]         # как-то нужно словарь перетащить сюда
+                        price = type_room_1[self.number_of_guests]
+                        if x != 0:
+                            price = price * 0.3
+                        result = comfort * price * len(days)
+                        if result > self.sum_person:
+                            continue
+                        elif result <= self.sum_person:
+                            room_for_guest = room
+                            break
+                    else:
+                        'не нашли комнату здесь'
+                        x += 1
+                        self.number_of_guests += 1
 
 
-        elif self.number_of_guests == 2:
-            rooms_like = list_rooms_inf[1]
-            if len(rooms_like) != 0:
-                for room in rooms_like:
-                    comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
-                    price = type_room_1[self.number_of_guests]
-                    if x != 0:
-                        price = price * 0.3
-                    result = comfort * price * len(days)
-                    if result > self.sum_person:
-                        continue
-                    elif result <= self.sum_person:
-                        room_for_guest = room
-                        break
-                else:
-                    'не нашли комнату здесь'
-                    x += 1
-                    self.number_of_guests += 1
+            elif self.number_of_guests == 2:
+                x = 0
+                rooms_like = list_rooms_inf[1]
+                if len(rooms_like) != 0:
+                    for room in rooms_like:
+                        comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
+                        price = type_room_1[self.number_of_guests]
+                        if x != 0:
+                            price = price * 0.3
+                        result = comfort * price * len(days)
+                        if result > self.sum_person:
+                            continue
+                        elif result <= self.sum_person:
+                            room_for_guest = room
+                            break
+                    else:
+                        'не нашли комнату здесь'
+                        x += 1
+                        self.number_of_guests += 1
 
 
-        else:
-            rooms_like = list_rooms_inf[2]
-            if len(rooms_like) != 0:
-                for room in rooms_like:
-                    comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
-                    price = type_room_1[self.number_of_guests]
-                    if x != 0:
-                        price = price * 0.3
-                    result = comfort * price * len(days)
-                    if result > self.sum_person:
-                        continue
-                    elif result <= self.sum_person:
-                        room_for_guest = room
-                        break
-                else:
-                    'не нашли комнату здесь'
-                    x = -1
+            else:
+                x = 0
+                rooms_like = list_rooms_inf[2]
+                if len(rooms_like) != 0:
+                    for room in rooms_like:
+                        comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
+                        price = type_room_1[self.number_of_guests]
+                        if x != 0:
+                            price = price * 0.3
+                        result = comfort * price * len(days)
+                        if result > self.sum_person:
+                            continue
+                        elif result <= self.sum_person:
+                            room_for_guest = room
+                            break
+                    else:
+                        'не нашли комнату здесь'
+                        x = -1
 
-        if x == 0:
-            return room_for_guest
-        elif x == -1:
-            return 'не смогли найти комнату'
-        else:
-            #ЗАПУСТИТЬ ЕЩЕ РАЗ
-
+            if x == 0:
+                x -= 1
+                return room_for_guest
+            elif x == -1:
+                x1 += 1
+                return 'не смогли найти комнату'
 
 
 
