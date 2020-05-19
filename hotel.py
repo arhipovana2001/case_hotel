@@ -124,10 +124,12 @@ class Guest(Rooms):
                         x = -1
 
             if x == 0:
-                x -= 1
+                x1 -= 1
                 return room_for_guest
-            elif x == -1:
+            elif x == -1 and x1 == -1:
                 return 'не смогли найти комнату'
+            else:
+                return 'ищем комнату на другое кол-во человек'
 
 
 
