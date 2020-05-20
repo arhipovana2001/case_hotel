@@ -1,40 +1,25 @@
+''' Case study Hotel
+Developers: Arkhipova A.(50%)
+            Revtova L.(35%)
+            Panyukova E.(50%)
+            Kuznetsova K.(20%)
+'''
 from hotel import Rooms, Guest
-"""
-Поступила заявка на бронирование:
 
-01.03.2020 Жиренкова Надежда Евдокимовна 1 01.03.2020 3 4400
-
-Найден:
-
-номер 1 одноместный стандарт рассчитан на 1 чел. фактически 1 чел.  полупансион стоимость 3900.00 руб./сутки
-
-Клиент согласен. Номер забронирован.
-------------------------------------------------------------------------------------------------------------
-Поступила заявка на бронирование:
-
-01.03.2020 Бузинская Альбина Кирилловна 1 03.03.2020 1 2200
-
-Предложений по данному запросу нет. В бронировании отказано.
-"""
 
 with open('booking.txt', encoding='utf8') as b:
     people = b.read().splitlines()
     guests = []
     for guest in people:
         guest = Guest(guest)
-        #days = guest.check_days()     # вызываю настину функцию, для кол-ва дней
-        #print(guest.choice_of_room(days))    # выбор комнаты
         guests.append(guest)
 
 with open('fund.txt', encoding='utf8') as f:
     inf = f.read().splitlines()
     rooms = []
-    #print(inf)
-    #for room in inf:
-        #room = Rooms(room)
-        #rooms.append(room)
-    #print(rooms)
-
+    for room in inf:
+        room = Rooms(room)
+        rooms.append(room)
     list_rooms_inf = [['1'], ['2'], ['люкс']]
     for room_ in inf:
         if '1' in room_[2:]:
@@ -50,10 +35,11 @@ with open('fund.txt', encoding='utf8') as f:
             num_rum = int(room_[:2])
             list_rooms_inf[2].append((str(num_rum) + ',' + _rm[_rm.find('люкс'):]).split(','))
 
-    print(list_rooms_inf)
-
-
-# Что и как в списке:
-# ['1',['номер комнаты','мест категория'],
-#  '2',['номер комнаты','мест категория'],
-#  'люкс',['номер комнаты','мест категория'] ]
+    for i, j in zip(guests, rooms):
+        print('-' * 86 + '\n')
+        print('Поступила заявка на бронирование:\n')
+        print(i)
+        print()
+        print('Найден:\n')
+        days = i.check_days()
+        print(i.choice(days, list_rooms_inf))

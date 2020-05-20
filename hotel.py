@@ -1,7 +1,8 @@
 class Rooms:
     """The class describe The Room"""
     type_room = {'одноместный': 2900.00, 'двухместный': 2300.00, 'полулюкс': 3200.00, 'люкс': 4100.00}
-    comfortable = {'стандарт': 1.0, 'стандарт улучшенный': 1.2, 'апартамент': 1.5}
+    type_room_int = {1: 2900.00, 2: 2300.00, 'полулюкс': 3200.00, 'люкс': 4100.00}
+    comfortable = {'стандарт': 1.0, 'стандарт_улучшенный': 1.2, 'апартамент': 1.5}
     food = {'без питания': 0.00, 'завтрак': 280.00, 'полупансион': 1000.00}
 
     def __init__(self, data_room: str):
@@ -20,13 +21,11 @@ class Guest(Rooms):
         """Initialization method"""
         self.date_of_bron, self.first_name, self.middle_name, self.last_name, self.number_of_guests, \
         self.date_of_arrival, self.number_of_days, self.sum_person = [s for s in data_guest.split()]
-        #self.room = Guest.check(self.data_guest,)
 
-        self.busy_rooms = []         # список комнат, которые заняты.
+        self.busy_rooms = []
 
     def check_days(self):
         """The method counts on which days the guest wants to book a room"""
-        # преобразует дату в число, какой по счету день в году
         data = self.date_of_arrival
         months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         months_vis = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -42,95 +41,84 @@ class Guest(Rooms):
             for i in range(0, month - 1):
                 total += months_vis[i]
             total += day
-        # подсчитывает на какие дни гость заезжает (в формате номер дня по счету в году)
         days = [total]
         for i in range(int(self.number_of_days) - 1):
             total += 1
             days.append(total)
         return days
 
-    def choice_of_room(self, days, list_rooms_inf):
-        """The method choice of room for guest."""
-        # Выбор комнаты для гостя
-
-        comfortable_1 = Rooms.comfortable
-        type_room_1 = Rooms.type_room
-        self.number_of_guests = int(self.number_of_guests)
-
-        room_for_guest = ''
-        x = 0
-        x1 = 0
-        while x == -1 and x1 != -1:
-            if self.number_of_guests == 1:
+    def choice(self, days, list_rooms_inf):
+        all_rooms = []
+        for i in list_rooms_inf:
+            for j in i[1:]:
+                all_rooms.append(j)
+        for i in range(2):
+            if i == 0:
+                comfortable_1 = Rooms.comfortable
+                type_room_1 = Rooms.type_room_int
+                self.number_of_guests = int(self.number_of_guests)
+                room_for_guest = ''
                 x = 0
-                rooms_like = list_rooms_inf[0]
-                if len(rooms_like) != 0:
-                    for room in rooms_like:
-                        comfort = comfortable_1[room[0].split()[-1]]         # как-то нужно словарь перетащить сюда
-                        price = type_room_1[self.number_of_guests]
-                        if x != 0:
-                            price = price * 0.3
-                        result = comfort * price * len(days)
-                        if result > self.sum_person:
-                            continue
-                        elif result <= self.sum_person:
-                            room_for_guest = room
-                            break
-                    else:
-                        'не нашли комнату здесь'
-                        x -= 1
-                        self.number_of_guests += 1
+                if self.number_of_guests == 1:
+                    rooms_like = list_rooms_inf[0][1:]
 
-
-            elif self.number_of_guests == 2:
-                x = 0
-                rooms_like = list_rooms_inf[1]
-                if len(rooms_like) != 0:
-                    for room in rooms_like:
-                        comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
-                        price = type_room_1[self.number_of_guests]
-                        if x != 0:
-                            price = price * 0.3
-                        result = comfort * price * len(days)
-                        if result > self.sum_person:
-                            continue
-                        elif result <= self.sum_person:
-                            room_for_guest = room
-                            break
-                    else:
-                        'не нашли комнату здесь'
-                        x -= 1
-                        self.number_of_guests += 1
-
-
-            else:
-                x = 0
-                rooms_like = list_rooms_inf[2]
-                if len(rooms_like) != 0:
-                    for room in rooms_like:
-                        comfort = comfortable_1[room[0].split()[-1]]  # как-то нужно словарь перетащить сюда
-                        price = type_room_1[self.number_of_guests]
-                        if x != 0:
-                            price = price * 0.3
-                        result = comfort * price * len(days)
-                        if result > self.sum_person:
-                            continue
-                        elif result <= self.sum_person:
-                            room_for_guest = room
-                            break
-                    else:
-                        'не нашли комнату здесь'
-                        x1 -= -1
-                        x = -1
-
-            if x == 0:
-                return room_for_guest
-            elif x == -1 and x1 == -1:
-                return 'не смогли найти комнату'
-            else:
-                return 'ищем комнату на другое кол-во человек'
-
-
+                    if len(rooms_like) != 0:
+                        for room in rooms_like:
+                            comfort = comfortable_1[room[1].split()[-1]]
+                            price = type_room_1[self.number_of_guests]
+                            if x != 0:
+                                price = price * 0.3
+                            result = comfort * price * len(days)
+                            if result > int(self.sum_person):
+                                continue
+                            elif result <= int(self.sum_person):
+                                room_for_guest = room
+                                all_rooms.remove(room)
+                                return f'номер {room[0]} одноместный {room[1].split()[-1]} рассчитан на 1 чел фактически {self.number_of_guests} чел.\n\nКлиент согласен. Номер забронирован.'
+                        else:
+                            'не нашли комнату здесь'
+                            x += 1
+                            self.number_of_guests += 1
+                elif self.number_of_guests == 2:
+                    rooms_like = list_rooms_inf[1][1:]
+                    if len(rooms_like) != 0:
+                        for room in rooms_like:
+                            comfort = comfortable_1[room[1].split()[-1]]
+                            price = type_room_1[self.number_of_guests]
+                            if x != 0:
+                                price = price * 0.3
+                            result = comfort * price * len(days)
+                            if result > int(self.sum_person):
+                                continue
+                            elif result <= int(self.sum_person):
+                                room_for_guest = room
+                                all_rooms.remove(room)
+                                return f'номер {room[0]} двухместный {room[1].split()[-1]} рассчитан на 2 чел фактически {self.number_of_guests} чел.\n\nКлиент согласен. Номер забронирован.'
+                        else:
+                            'не нашли комнату здесь'
+                            x += 1
+                            self.number_of_guests += 1
+                else:
+                    rooms_like = list_rooms_inf[2][1:]
+                    if len(rooms_like) != 0:
+                        for room in rooms_like:
+                            max_people = int(room[1].split()[1])
+                            if self.number_of_guests <= max_people:
+                                comfort = comfortable_1[room[1].split()[-1]]
+                                price = type_room_1[room[1].split()[0]]
+                                if x != 0:
+                                    price = price * 0.3
+                                result = comfort * price * len(days)
+                                if result > int(self.sum_person):
+                                    continue
+                                elif result <= int(self.sum_person):
+                                    room_for_guest = room
+                                    all_rooms.remove(room)
+                                    return f'номер {room[0]} одноместный {room[1].split()[-1]} рассчитан на {max_people} чел фактически {self.number_of_guests} чел.\n\nКлиент согласен. Номер забронирован.'
+                            else:
+                                continue
+                        else:
+                            return 'Предложений по данному запросу нет. В бронировании отказано.'
 
     def __str__(self):
         """String output method"""
